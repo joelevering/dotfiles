@@ -12,6 +12,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'neomake/neomake'
 Plug 'tpope/vim-fugitive'
 Plug 'Shougo/deoplete.nvim'
+Plug 'janko/vim-test'
 
 " JS
 Plug 'pangloss/vim-javascript'
@@ -19,6 +20,9 @@ Plug 'mxw/vim-jsx'
 Plug 'othree/html5.vim'
 Plug 'mhartington/nvim-typescript'
 Plug 'HerringtonDarkholme/yats.vim'
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 
 " Go
 Plug 'fatih/vim-go', {'for': 'go'}
@@ -28,6 +32,11 @@ Plug 'zchee/deoplete-go', {'do': 'make', 'for': 'go'}
 Plug 'tpope/vim-endwise', {'for': 'ruby'}
 Plug 'tpope/vim-rails', {'for': 'ruby'}
 Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
+
+" Elixir
+Plug 'elixir-editors/vim-elixir'
+Plug 'slashmili/alchemist.vim'
+Plug 'mhinz/vim-mix-format'
 
 call plug#end()
 
@@ -79,6 +88,9 @@ set incsearch " Find the next match as we type the search
 set hlsearch " Highlight searches by default
 set ignorecase " Ignore case when searching...
 set smartcase " ...unless we type a capital
+
+" Copy to clipboard
+set clipboard=unnamedplus
 
 " Type ,hl to toggle highlighting on/off, and show current value.
 noremap ,hl :set hlsearch! hlsearch?<CR>
@@ -167,6 +179,14 @@ map <D-7> 7gt
 map <D-8> 8gt
 map <D-9> 9gt
 
+" Vim test
+let test#strategy = "neovim"
+nmap <silent> t<C-n> :TestNearest<CR>
+nmap <silent> t<C-f> :TestFile<CR>
+nmap <silent> t<C-s> :TestSuite<CR>
+nmap <silent> t<C-l> :TestLast<CR>
+nmap <silent> t<C-g> :TestVisit<CR>
+
 " ================ Persistent Undo ==================
 " Keep undo history across sessions, by storing in file.
 if has('persistent_undo') && isdirectory(expand('~').'/.vim/backups')
@@ -193,6 +213,9 @@ let g:go_highlight_types = 1
 let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 let g:syntastic_map_mode = { 'mode': 'active', 'passive_filetypes': ['go'] }
 let g:go_list_type = 'quickfix'
+
+" Elixir
+let g:mix_format_on_save = 1
 
 set completeopt+=noinsert
 set completeopt+=noselect
